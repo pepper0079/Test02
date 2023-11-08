@@ -50,20 +50,19 @@ uint16_t Pin;
 };
 
 struct _ButMtx_Struct BMX_L[4] = {
-{GPIOA,GPIO_PIN_9},
-{GPIOC,GPIO_PIN_7},
-{GPIOB,GPIO_PIN_6},
-{GPIOA,GPIO_PIN_7}
+		{GPIOA,GPIO_PIN_9},
+		{GPIOC,GPIO_PIN_7},
+		{GPIOB,GPIO_PIN_6},
+		{GPIOA,GPIO_PIN_7}
 };
 
-struct _ButMtx_Struct BMX_R[4] = {
-{GPIOB,GPIO_PIN_5},
-{GPIOB,GPIO_PIN_4},
-{GPIOB,GPIO_PIN_10},
-{GPIOA,GPIO_PIN_8}
+struct _ButMtx_Struct BMX_R[3] = {
+		{GPIOB,GPIO_PIN_5},
+		{GPIOB,GPIO_PIN_4},
+		{GPIOB,GPIO_PIN_10}
 };
 
-uint16_t ButtonState = 0;
+static uint16_t ButtonState = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -119,15 +118,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-
 	  static uint32_t BTMX_TimeStamp = 0;
 	  if(HAL_GetTick() > BTMX_TimeStamp)
 	  {
-	  BTMX_TimeStamp = HAL_GetTick() + 25; //next scan in 25 ms
-	  ButtonMatrixRead();
+		  BTMX_TimeStamp = HAL_GetTick() + 25; //next scan in 25 ms
+	  	  ButtonMatrixRead();
 	  }
-	  }
+  }
 
   /* USER CODE END 3 */
 }
@@ -283,7 +280,7 @@ ButtonState &= ~(1 << (i + (X * 4)));
 //set currentL to Hi-z (open drain)
 HAL_GPIO_WritePin(BMX_R[X].Port, BMX_R[X].Pin, GPIO_PIN_SET);
 //set nextL to low
-uint8_t nextX = (X + 1) % 4;
+uint8_t nextX = (X + 1) % 3;
 HAL_GPIO_WritePin(BMX_R[nextX].Port, BMX_R[nextX].Pin, GPIO_PIN_RESET);
 X = nextX;
 }
